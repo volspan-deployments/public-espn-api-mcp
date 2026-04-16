@@ -34,6 +34,7 @@ async def espn_get(url: str, params: Optional[dict] = None) -> Any:
 
 @mcp.tool()
 async def get_scoreboard(
+    _track("get_scoreboard")
     sport: str,
     league: str,
     dates: Optional[str] = None,
@@ -83,12 +84,14 @@ async def get_teams(sport: str, league: str, limit: Optional[int] = 1000) -> dic
     Returns:
         JSON with a list of teams including IDs, names, abbreviations, and logos.
     """
+    _track("get_teams")
     url = f"{ESPN_SITE_API}/apis/site/v2/sports/{sport}/{league}/teams"
     return await espn_get(url, {"limit": limit})
 
 
 @mcp.tool()
 async def get_team(
+    _track("get_team")
     sport: str,
     league: str,
     team_id_or_slug: str,
@@ -117,6 +120,7 @@ async def get_team(
 
 @mcp.tool()
 async def get_standings(
+    _track("get_standings")
     sport: str,
     league: str,
     season: Optional[int] = None,
@@ -151,6 +155,7 @@ async def get_standings(
 
 @mcp.tool()
 async def get_news(
+    _track("get_news")
     sport: str,
     league: str,
     team_id: Optional[str] = None,
@@ -195,6 +200,7 @@ async def get_game_summary(sport: str, league: str, event_id: str) -> dict:
     Returns:
         Game summary JSON with teams, scores, leaders, and game details.
     """
+    _track("get_game_summary")
     url = f"{ESPN_SITE_API}/apis/site/v2/sports/{sport}/{league}/summary"
     return await espn_get(url, {"event": event_id})
 
@@ -214,6 +220,7 @@ async def get_injuries(sport: str, league: str, team_id: Optional[str] = None) -
     Returns:
         Injury report JSON with player names, statuses, and descriptions.
     """
+    _track("get_injuries")
     url = f"{ESPN_SITE_API}/apis/v2/sports/{sport}/{league}/injuries"
     params: dict = {}
     if team_id:
@@ -236,12 +243,14 @@ async def get_athlete(sport: str, league: str, athlete_id: str) -> dict:
     Returns:
         Athlete profile JSON including bio, position, team, and college.
     """
+    _track("get_athlete")
     url = f"{ESPN_SITE_API}/apis/site/v2/sports/{sport}/{league}/athletes/{athlete_id}"
     return await espn_get(url)
 
 
 @mcp.tool()
 async def search_athletes(
+    _track("search_athletes")
     sport: str,
     league: str,
     query: str,
@@ -267,6 +276,7 @@ async def search_athletes(
 
 @mcp.tool()
 async def get_athlete_stats(
+    _track("get_athlete_stats")
     sport: str,
     league: str,
     athlete_id: str,
@@ -297,6 +307,7 @@ async def get_athlete_stats(
 
 @mcp.tool()
 async def get_athlete_gamelog(
+    _track("get_athlete_gamelog")
     sport: str,
     league: str,
     athlete_id: str,
@@ -329,6 +340,7 @@ async def get_athlete_gamelog(
 
 @mcp.tool()
 async def get_schedule(
+    _track("get_schedule")
     sport: str,
     league: str,
     team_id: Optional[str] = None,
@@ -375,6 +387,7 @@ async def get_schedule(
 
 @mcp.tool()
 async def get_leaders(
+    _track("get_leaders")
     sport: str,
     league: str,
     season: Optional[int] = None,
@@ -418,6 +431,7 @@ async def get_event_odds(sport: str, league: str, event_id: str) -> dict:
     Returns:
         Odds JSON with spread, money line, and over/under from multiple providers.
     """
+    _track("get_event_odds")
     url = f"{ESPN_CORE_API}/v2/sports/{sport}/{league}/events/{event_id}/competitions/{event_id}/odds"
     return await espn_get(url)
 
@@ -437,6 +451,7 @@ async def get_play_by_play(sport: str, league: str, event_id: str) -> dict:
     Returns:
         Play-by-play JSON with individual plays, clock, scores, and participants.
     """
+    _track("get_play_by_play")
     url = f"{ESPN_CDN_API}/core/{sport}/{league}/playbyplay"
     return await espn_get(url, {"event": event_id, "enable": "plays,homeAway"})
 
@@ -445,6 +460,7 @@ async def get_play_by_play(sport: str, league: str, event_id: str) -> dict:
 
 @mcp.tool()
 async def get_transactions(
+    _track("get_transactions")
     sport: str,
     league: str,
     team_id: Optional[str] = None,
@@ -477,6 +493,7 @@ async def get_transactions(
 
 @mcp.tool()
 async def get_team_roster(
+    _track("get_team_roster")
     sport: str,
     league: str,
     team_id: str,
@@ -505,6 +522,7 @@ async def get_team_roster(
 
 @mcp.tool()
 async def get_events(
+    _track("get_events")
     sport: str,
     league: str,
     dates: Optional[str] = None,
@@ -545,6 +563,7 @@ async def get_events(
 
 @mcp.tool()
 async def get_now_feed(
+    _track("get_now_feed")
     sport: Optional[str] = None,
     league: Optional[str] = None,
     limit: Optional[int] = 20,
@@ -586,6 +605,7 @@ async def get_athlete_overview(sport: str, league: str, athlete_id: str) -> dict
     Returns:
         Athlete overview JSON combining stats, news, and game log summaries.
     """
+    _track("get_athlete_overview")
     url = f"{ESPN_WEB_V3_API}/apis/common/v3/sports/{sport}/{league}/athletes/{athlete_id}/overview"
     return await espn_get(url)
 
@@ -601,6 +621,7 @@ async def list_supported_leagues() -> dict:
     Returns:
         Dictionary mapping sport slugs to lists of supported league slugs.
     """
+    _track("list_supported_leagues")
     return {
         "football": ["nfl", "college-football"],
         "basketball": ["nba", "mens-college-basketball", "womens-college-basketball", "wnba"],
